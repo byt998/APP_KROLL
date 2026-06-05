@@ -103,7 +103,7 @@ export function RegisterScreen({
       <div className="auth-shell auth-shell--register">
         <AuthShowcase />
         <section className="auth-card auth-card--wide">
-          <Brand description="Utwórz konto pracownika" />
+          <Brand />
           <div className="auth-card__intro">
             <span className="auth-card__pill">Nowe konto</span>
             <h1>Rejestracja</h1>

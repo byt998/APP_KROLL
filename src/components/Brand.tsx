@@ -1,5 +1,5 @@
 type BrandProps = {
-  description: string;
+  description?: string;
 };
 
 export function Brand({ description }: BrandProps) {
@@ -10,7 +10,7 @@ export function Brand({ description }: BrandProps) {
       </span>
       <div>
         <p className="brand__name">KROLL</p>
-        <p className="brand__description">{description}</p>
+        {description && <p className="brand__description">{description}</p>}
       </div>
     </header>
   );

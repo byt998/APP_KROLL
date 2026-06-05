@@ -14,10 +14,6 @@ const shortcuts = [
   { name: "Ustawienia", description: "Ustawienia aplikacji", icon: "settings" as const }
 ];
 
-function profileValue(value: string | null) {
-  return value || "Brak danych";
-}
-
 export function HomeScreen({ profile, isSigningOut, onSignOut }: HomeScreenProps) {
   return (
     <main className="home-layout">
@@ -47,7 +43,6 @@ export function HomeScreen({ profile, isSigningOut, onSignOut }: HomeScreenProps
           <div className="hero-card__copy">
             <p className="section-kicker section-kicker--light">Strona główna</p>
             <h1>Witaj, {profile.first_name || "Użytkowniku"}</h1>
-            <p>Tu znajdziesz najważniejsze informacje i skróty do modułów aplikacji.</p>
             <span className="hero-card__status">
               <span />
               Konto aktywne
@@ -63,36 +58,6 @@ export function HomeScreen({ profile, isSigningOut, onSignOut }: HomeScreenProps
           </div>
         </section>
 
-        <section className="profile-card">
-          <div className="panel-heading">
-            <span className="panel-heading__icon">
-              <AppIcon name="user" size={20} />
-            </span>
-            <div>
-              <p className="section-kicker">Twój profil</p>
-              <h2>Dane użytkownika</h2>
-            </div>
-          </div>
-          <dl className="profile-grid">
-            <div>
-              <dt>Imię</dt>
-              <dd>{profileValue(profile.first_name)}</dd>
-            </div>
-            <div>
-              <dt>Nazwisko</dt>
-              <dd>{profileValue(profile.last_name)}</dd>
-            </div>
-            <div>
-              <dt>Rola</dt>
-              <dd>{profileValue(profile.role)}</dd>
-            </div>
-            <div>
-              <dt>Numer telefonu</dt>
-              <dd>{profileValue(profile.phone)}</dd>
-            </div>
-          </dl>
-        </section>
-
         <section className="shortcut-section">
           <div className="panel-heading">
             <span className="panel-heading__icon">
@@ -103,6 +68,7 @@ export function HomeScreen({ profile, isSigningOut, onSignOut }: HomeScreenProps
               <h2>Moduły aplikacji</h2>
             </div>
           </div>
+          <p className="shortcut-section__hint">Przesuń palcem, aby zobaczyć kolejne moduły.</p>
           <div className="shortcut-grid">
             {shortcuts.map((shortcut) => (
               <article className="shortcut-card" key={shortcut.name}>

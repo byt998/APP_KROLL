@@ -51,7 +51,7 @@ export function LoginScreen({ message, onShowRegister }: LoginScreenProps) {
       <div className="auth-shell">
         <AuthShowcase />
         <section className="auth-card">
-          <Brand description="Panel pracownika" />
+          <Brand />
           <div className="auth-card__intro">
             <span className="auth-card__pill">Witaj ponownie</span>
             <h1>Zaloguj się</h1>

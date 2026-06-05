@@ -85,7 +85,12 @@ describe("App", () => {
     act(() => authListener?.("SIGNED_IN", session));
 
     expect(await screen.findByRole("heading", { name: "Witaj, Jan" })).toBeInTheDocument();
-    expect(screen.getByText("500600700")).toBeInTheDocument();
+    expect(screen.queryByText("Dane użytkownika")).not.toBeInTheDocument();
+    expect(screen.queryByText("500600700")).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Zadania" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Mapa" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Raporty" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Ustawienia" })).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: "Wyloguj" }));
 
