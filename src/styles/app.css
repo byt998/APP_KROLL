@@ -23,6 +23,10 @@ input {
   font: inherit;
 }
 
+textarea {
+  font: inherit;
+}
+
 button {
   cursor: pointer;
 }
@@ -348,6 +352,27 @@ p {
   box-shadow: 0 0 0 4px rgba(35, 128, 95, 0.13);
 }
 
+.form-field textarea {
+  width: 100%;
+  min-height: 130px;
+  resize: vertical;
+  padding: 15px 16px;
+  border: 1px solid #d9e5e0;
+  border-radius: 13px;
+  background: #fbfdfc;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.form-field textarea:focus {
+  border-color: #23805f;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(35, 128, 95, 0.13);
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -388,6 +413,24 @@ p {
 
 .button--light:hover {
   background: rgba(255, 255, 255, 0.18);
+}
+
+.button--secondary {
+  border: 1px solid #d8e7e1;
+  background: #edf7f3;
+  color: #176b4d;
+}
+
+.button--danger {
+  border: 1px solid #f0c6bf;
+  background: #fff0ee;
+  color: #ac352b;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .text-button {
@@ -517,6 +560,11 @@ p {
 
 .home-content {
   padding: 34px 0 52px;
+}
+
+.app-screen {
+  display: grid;
+  gap: 22px;
 }
 
 .hero-card {
@@ -660,6 +708,7 @@ p {
 }
 
 .shortcut-section {
+  min-width: 0;
   margin-top: 38px;
 }
 
@@ -672,6 +721,8 @@ p {
 
 .shortcut-grid {
   display: grid;
+  max-width: 100%;
+  min-width: 0;
   gap: 16px;
   margin-top: 19px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -687,6 +738,14 @@ p {
     border-color 180ms ease,
     box-shadow 180ms ease,
     transform 180ms ease;
+}
+
+.shortcut-card--button {
+  width: 100%;
+  border: 1px solid #e0e9e4;
+  color: inherit;
+  font: inherit;
+  text-align: left;
 }
 
 .shortcut-card::after {
@@ -720,13 +779,14 @@ p {
 
 .shortcut-card h3 {
   margin: 20px 0 7px;
-  color: #27463c;
+  color: #18302a;
 }
 
 .shortcut-card p {
   margin-bottom: 26px;
   font-size: 14px;
   line-height: 1.5;
+  color: #18302a;
 }
 
 .shortcut-card__footer {
@@ -745,6 +805,177 @@ p {
   font-weight: 900;
   letter-spacing: 0.09em;
   text-transform: uppercase;
+}
+
+.announcements-section,
+.admin-form-card,
+.city-list-panel,
+.placeholder-card {
+  margin-top: 32px;
+  padding: 25px;
+  border: 1px solid #e0e9e4;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 34px rgba(30, 77, 61, 0.07);
+}
+
+.admin-form-card,
+.city-list-panel,
+.placeholder-card {
+  margin-top: 0;
+}
+
+.city-manager-layout {
+  display: grid;
+  align-items: start;
+  gap: 22px;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
+}
+
+.city-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 21px;
+}
+
+.city-card {
+  padding: 18px;
+  border: 1px solid #ebf1ef;
+  border-radius: 18px;
+  background: #f8fbfa;
+  box-shadow: 0 10px 24px rgba(30, 77, 61, 0.06);
+}
+
+.city-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.city-card h3 {
+  margin-bottom: 0;
+  color: #18302a;
+  font-size: 22px;
+  letter-spacing: -0.04em;
+}
+
+.city-stats {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 0;
+}
+
+.city-stats div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.city-stats dt {
+  color: #69817a;
+  font-size: 14px;
+}
+
+.city-stats dd {
+  margin: 0;
+  color: #18302a;
+  font-weight: 900;
+}
+
+.announcement-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 21px;
+}
+
+.announcement-card {
+  padding: 18px;
+  border: 1px solid #ebf1ef;
+  border-radius: 16px;
+  background: #f8fbfa;
+}
+
+.announcement-card time {
+  display: block;
+  margin-bottom: 8px;
+  color: #7b908a;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.announcement-card h3 {
+  margin-bottom: 8px;
+  color: #27463c;
+}
+
+.announcement-card p {
+  margin-bottom: 0;
+  color: #69817a;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.announcement-card--admin p {
+  margin-bottom: 16px;
+}
+
+.empty-state {
+  margin: 20px 0 0;
+  padding: 18px;
+  border: 1px dashed #d8e7e1;
+  border-radius: 14px;
+  background: #f8fbfa;
+  color: #7b908a;
+}
+
+.back-button {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: #176b4d;
+  font-weight: 900;
+}
+
+.back-button .app-icon {
+  rotate: 180deg;
+}
+
+.hero-card--compact {
+  min-height: 190px;
+}
+
+.placeholder-card {
+  display: grid;
+  justify-items: start;
+}
+
+.placeholder-card h1,
+.admin-form-card h1 {
+  margin: 0;
+  font-size: clamp(27px, 5vw, 40px);
+  letter-spacing: -0.05em;
+}
+
+.placeholder-card h1 {
+  color: #18302a;
+}
+
+.admin-form-card h1 {
+  color: #18302a;
+}
+
+.announcements-section .panel-heading h2 {
+  color: #18302a;
+}
+
+.placeholder-card p:last-child {
+  margin: 13px 0 0;
+  color: #69817a;
 }
 
 @keyframes spin {
@@ -864,9 +1095,12 @@ p {
   .shortcut-grid {
     display: flex;
     gap: 14px;
+    max-width: none;
+    width: calc(100% + 28px);
     margin-inline: -14px;
     padding: 4px 14px 12px;
     overflow-x: auto;
+    overscroll-behavior-inline: contain;
     scroll-padding-inline: 14px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
@@ -877,8 +1111,28 @@ p {
   }
 
   .shortcut-card {
+    flex: 0 0 calc(100vw - 56px);
     min-width: calc(100vw - 56px);
     min-height: 172px;
     scroll-snap-align: center;
+  }
+
+  .shortcut-card--button {
+    width: auto;
+  }
+
+  .announcements-section,
+  .admin-form-card,
+  .city-list-panel,
+  .placeholder-card {
+    padding: 19px;
+  }
+
+  .city-manager-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .button-row {
+    display: grid;
   }
 }

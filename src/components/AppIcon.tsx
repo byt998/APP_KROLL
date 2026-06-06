@@ -1,3 +1,5 @@
+import type { ReactElement } from "react";
+
 type AppIconName =
   | "arrow-right"
   | "chart"
@@ -108,4 +110,3 @@ export function AppIcon({ name, size = 20 }: AppIconProps) {
     </svg>
   );
 }
-import type { ReactElement } from "react";

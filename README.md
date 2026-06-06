@@ -3,6 +3,8 @@
 Pierwsza wersja aplikacji pracownika KROLL. Zawiera logowanie, rejestrację przez
 numer telefonu i hasło oraz bazowy ekran HOME. Karty modułów na HOME są
 przygotowane pod dalszy rozwój i na tym etapie nie otwierają nowych ekranów.
+Administrator ma dodatkowo dostęp do panelu administratora oraz zarządzania
+komunikatami widocznymi w sekcji `Aktualne informacje`.
 
 ## Jak działa logowanie
 
@@ -66,11 +68,48 @@ Plik SQL tworzy:
 
 - tabelę `profiles` z danymi użytkowników,
 - tabelę `registration_allowlist` z dozwolonymi numerami,
+- tabelę `announcements` z komunikatami,
+- tabelę `cities` z miastami,
+- tabelę `work_orders` jako bazę pod liczniki zleceń,
+- funkcję `get_cities_with_stats()` do pobierania miast ze statystykami,
 - funkcję sprawdzającą numer przed rejestracją,
 - trigger tworzący profil,
-- politykę RLS pozwalającą użytkownikowi czytać wyłącznie własny profil.
+- polityki RLS dla profili, komunikatów, miast i zleceń.
 
 Tabela `profiles` celowo nie ma pola `shift_code`.
+
+## Aktualne informacje
+
+Sekcja `Aktualne informacje` na HOME pokazuje komunikaty z tabeli
+`announcements`. Najnowsze komunikaty są wyświetlane na górze.
+
+Każdy zalogowany użytkownik może czytać komunikaty. Dodawać, edytować i usuwać
+może tylko użytkownik z rolą `admin` w tabeli `profiles`.
+
+Admin dodaje komunikaty w aplikacji:
+
+1. Zaloguj się jako administrator.
+2. Kliknij `Panel Administratora`.
+3. Kliknij `DODAJ KOMUNIKAT`.
+4. Wpisz `Tytuł` i `Treść`.
+5. Kliknij `Dodaj komunikat`.
+
+Na tym samym ekranie administrator może edytować lub usuwać istniejące
+komunikaty.
+
+## Zarządzanie zleceniami i miastami
+
+Administrator zarządza miastami w aplikacji:
+
+1. Zaloguj się jako administrator.
+2. Kliknij `Panel Administratora`.
+3. Kliknij `ZARZĄDZAJ ZLECENIAMI`.
+4. Kliknij `Dodaj Miasto`.
+5. Wpisz nazwę miasta i kliknij `DODAJ MIASTO`.
+
+Aplikacja blokuje duplikaty nazw miast niezależnie od wielkości liter. Karty
+miast pokazują liczbę wszystkich, zakończonych i aktywnych zleceń. Usunięcie
+miasta z przypisanymi zleceniami jest blokowane.
 
 ## Dodawanie numeru do listy
 
@@ -155,6 +194,8 @@ Kod aplikacji i struktura bazy nie wymagają wtedy zmian.
 5. Sprawdź, czy tabela `profiles` zawiera numer, email techniczny oraz profil.
 6. Zaloguj konto i potwierdź, że HOME pokazuje dane użytkownika.
 7. Spróbuj ponownie zarejestrować ten sam numer. Operacja ma zostać zablokowana.
+8. Zaloguj konto admina, dodaj komunikat i potwierdź, że pojawia się w sekcji
+   `Aktualne informacje`.
 
 ## Testy automatyczne
 
