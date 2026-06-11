@@ -70,11 +70,15 @@ Plik SQL tworzy:
 - tabelę `registration_allowlist` z dozwolonymi numerami,
 - tabelę `announcements` z komunikatami,
 - tabelę `cities` z miastami,
-- tabelę `work_orders` jako bazę pod liczniki zleceń,
+- tabelę `work_orders` pozostawioną jako starszy fundament pod zlecenia,
+- tabele `import_batches`, `import_sheets` i `imported_orders` dla importu XLSX,
+- tabele `orders`, `order_items` i `order_photos` dla właściwych zleceń,
+- prywatny bucket Storage `order-photos` na zdjęcia zleceń,
 - funkcję `get_cities_with_stats()` do pobierania miast ze statystykami,
+- funkcję `get_order_public_items()` do bezpiecznego pokazania pozycji zleceń użytkownikom,
 - funkcję sprawdzającą numer przed rejestracją,
 - trigger tworzący profil,
-- polityki RLS dla profili, komunikatów, miast i zleceń.
+- polityki RLS dla profili, komunikatów, miast, importów i zleceń.
 
 Tabela `profiles` celowo nie ma pola `shift_code`.
 
@@ -108,8 +112,72 @@ Administrator zarządza miastami w aplikacji:
 5. Wpisz nazwę miasta i kliknij `DODAJ MIASTO`.
 
 Aplikacja blokuje duplikaty nazw miast niezależnie od wielkości liter. Karty
-miast pokazują liczbę wszystkich, zakończonych i aktywnych zleceń. Usunięcie
-miasta z przypisanymi zleceniami jest blokowane.
+miast pokazują liczbę wszystkich i zrealizowanych właściwych zleceń z tabeli
+`orders`. Usunięcie miasta z przypisanymi importami lub zleceniami jest
+blokowane.
+
+## Import XLSX
+
+Administrator importuje zlecenia w aplikacji:
+
+1. Zaloguj się jako administrator.
+2. Kliknij `Panel Administratora`.
+3. Kliknij `ZARZĄDZAJ ZLECENIAMI`.
+4. Kliknij `Importuj Zlecenia`.
+5. Wybierz miasto, wpisz nazwę importu, wybierz typ tabeli i wskaż plik XLSX.
+6. Kliknij `IMPORTUJ`.
+
+Plik XLSX jest odczytywany w przeglądarce przez fork SheetJS `@e965/xlsx`.
+Jeden plik jest zapisywany jako `import_batches`, każdy arkusz jako
+`import_sheets`, a pozycje robocze jako `imported_orders`.
+
+Po imporcie aplikacja pokazuje szczegóły importu i karty arkuszy. Po kliknięciu
+`Otwórz arkusz` wyświetlane są wyłącznie pozycje z tego jednego arkusza. Pozycje
+robocze można wyszukiwać i edytować w modalu.
+
+## Tworzenie zleceń
+
+Administrator tworzy właściwe zlecenia z pozycji roboczych po imporcie:
+
+1. Kliknij `Panel Administratora`.
+2. Kliknij `ZARZĄDZAJ ZLECENIAMI`.
+3. Kliknij `Twórz Zlecenia`.
+4. Wybierz miasto, import i arkusz.
+5. Zaznacz jedną lub kilka pozycji roboczych.
+6. Kliknij `Utwórz zlecenie`, uzupełnij opis, uwagi i status.
+
+Ekran pracuje na tabeli `imported_orders`, niezależnie od typu pliku XLSX.
+Edycja komórki przy wielu zaznaczonych wierszach aktualizuje tę samą kolumnę w
+każdym zaznaczonym wierszu. Ukrywanie kolumn dotyczy tylko widoku. Usunięcie
+wiersza w polu roboczym jest miękkie: aplikacja ustawia `is_removed = true`, a
+rekord pozostaje w Supabase.
+
+Po zatwierdzeniu aplikacja zapisuje właściwe zlecenie w `orders` i powiązania z
+pozycjami roboczymi w `order_items`.
+
+## Zlecenia, zdjęcia i mapa
+
+Kafelek `Zlecenia` na HOME otwiera listę właściwych zleceń. Administrator może
+edytować zlecenie, przypisać użytkownika, dodać ręcznie współrzędne GPS i dodać
+zdjęcia. Zwykły użytkownik widzi listę zleceń bez danych wrażliwych z importu i
+może oznaczyć zlecenie jako wykonane przez przycisk `ZREALIZOWANO`.
+
+W karcie zlecenia użytkownik widzi bezpieczne pola pozycji z importu: `ADRES`,
+`ZAKRES PRAC`, `GATUNEK`, `OBWÓD` i `ILOŚĆ`. Kliknięcie adresu otwiera
+nawigację w Google Maps dla zapytania `miasto + adres`. Ten link korzysta z
+Google Maps URLs i nie wymaga klucza API.
+
+Po kliknięciu `ZREALIZOWANO` użytkownik może dodać uwagi po realizacji i zdjęcia.
+Aplikacja ustawia status `completed`, zapisuje `completed_at` i dodaje zdjęcia
+do bucketu `order-photos`.
+
+Kafelek `Mapa` pokazuje zlecenia z uzupełnionym GPS na mapie OpenStreetMap.
+Aktywne zlecenia mają czerwone pinezki, a zrealizowane zielone. Zlecenia bez GPS
+pozostają na liście, ale nie pojawiają się na mapie.
+
+Jeśli bucket `order-photos` nie istnieje po wykonaniu SQL, utwórz go ręcznie w
+`Storage > Buckets` jako prywatny bucket i dopuszczalne typy plików:
+`image/jpeg`, `image/png`, `image/webp`.
 
 ## Dodawanie numeru do listy
 

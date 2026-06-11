@@ -10,8 +10,7 @@ type AdminPanelScreenProps = {
 const adminShortcuts = [
   { name: "ZARZĄDZAJ ZLECENIAMI", icon: "clipboard" as const },
   { name: "DODAJ KOMUNIKAT", icon: "sparkles" as const },
-  { name: "ZARZĄDZAJ PRACOWNIKAMI", icon: "user" as const },
-  { name: "MAPA ZLECEŃ", icon: "map-pin" as const }
+  { name: "ZARZĄDZAJ PRACOWNIKAMI", icon: "user" as const }
 ];
 
 export function AdminPanelScreen({

@@ -132,10 +132,6 @@ export function CityManagerScreen({
                         <dt>Zakończone</dt>
                         <dd>{city.completed_orders}</dd>
                       </div>
-                      <div>
-                        <dt>Aktywne</dt>
-                        <dd>{city.active_orders}</dd>
-                      </div>
                     </dl>
                   </article>
                 ))}

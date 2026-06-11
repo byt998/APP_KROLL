@@ -3,6 +3,8 @@ import { AppIcon } from "./AppIcon";
 type WorkOrderAdminScreenProps = {
   onBack: () => void;
   onOpenCities: () => void;
+  onOpenCreateOrders: () => void;
+  onOpenImport: () => void;
   onOpenModule: (title: string) => void;
 };
 
@@ -32,6 +34,8 @@ const orderShortcuts = [
 export function WorkOrderAdminScreen({
   onBack,
   onOpenCities,
+  onOpenCreateOrders,
+  onOpenImport,
   onOpenModule
 }: WorkOrderAdminScreenProps) {
   return (
@@ -63,6 +67,10 @@ export function WorkOrderAdminScreen({
                 onClick={() =>
                   shortcut.name === "Dodaj Miasto"
                     ? onOpenCities()
+                    : shortcut.name === "Importuj Zlecenia"
+                      ? onOpenImport()
+                      : shortcut.name === "Twórz Zlecenia"
+                        ? onOpenCreateOrders()
                     : onOpenModule(shortcut.name)
                 }
               >
@@ -73,7 +81,11 @@ export function WorkOrderAdminScreen({
                 <p>{shortcut.description}</p>
                 <span className="shortcut-card__footer">
                   <span className="shortcut-card__status">
-                    {shortcut.name === "Dodaj Miasto" ? "Otwórz" : "Wkrótce"}
+                    {shortcut.name === "Dodaj Miasto" ||
+                    shortcut.name === "Importuj Zlecenia" ||
+                    shortcut.name === "Twórz Zlecenia"
+                      ? "Otwórz"
+                      : "Wkrótce"}
                   </span>
                   <AppIcon name="arrow-right" size={16} />
                 </span>
